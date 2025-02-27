@@ -95,7 +95,11 @@ local vals = {
     pRod = "",
     totalCatches = 0,
     catchTime = 0,
-    lastCatchTime = 0
+}
+local rates = {
+    money = 0,
+    xp = 0,
+    catchRate = 0,
 }
 local purchase = {
     ["Bait Crate"] = {v = false, a = 1},
@@ -568,34 +572,46 @@ binds.main = game:GetService"RunService".Stepped:Connect(function()
         task.wait(vals.acspeed)
         cd.click = true
     end
-    if (webhookOpt.enabled or webhookOpt.test) and cd.webhook and webhookOpt.url ~= "" then
-        cd.webhook = false
-        local lt = DateTime.now():ToLocalTime()
-        if lt.Minute == 0 or webhookOpt.test then
-            local w = WHC:connect(webhookOpt.url)
-            w:title"Hourly Report"
-            w:author("0x3b5", "https://discord.gg/Fh5rmgg27X", "https://media.discordapp.net/attachments/1320467041752449116/1332649895445790761/101_20250125105259.png")
-            w:addField("Money", formatNum(math.ceil(pstat.coins.Value)) .. "C$ (" .. formatNum(rates.money) .. "/hr)", true)
-            w:addField("Level", formatNum(pstat.level.Value) .. " (" .. formatNum(rates.xp) .. " XP/hr)", true)
-            w:addField("Catch Rate", vals.totalCatches .. " / 0 (" .. string.format("%.3f", rates.catchRate / 100) .. "%)", true)
-            w:addField("Fish Caught", "Fish was Caught!", true)
-            w:addField("Average Catch Time", string.format("%.3f", vals.catchTime) .. "s", true)
-            w:addField("Runtime", toHMS(os.time() - sessionStart), true)
-            w:addField("Time", lt:FormatLocalTime("HH:mm:ss", "en-US"), true)
-            w:footer("Uptime: " .. toHMS(os.time() - sessionStart))
-            w:timestamp()
+  if (webhookOpt.enabled or webhookOpt.test) and cd.webhook and webhookOpt.url ~= "" then
+    cd.webhook = false
+    print("Mencuba menghantar webhook ke: " .. webhookOpt.url)
+    local lt = DateTime.now():ToLocalTime()
+    if lt.Minute == 0 or webhookOpt.test then
+        local w = WHC:connect(webhookOpt.url)
+        w:title"Hourly Report"
+        w:author("0x3b5", "https://discord.gg/Fh5rmgg27X", "https://media.discordapp.net/attachments/1320467041752449116/1332649895445790761/101_20250125105259.png")
+        w:addField("Money", formatNum(math.ceil(pstat.coins.Value)) .. "C$ (" .. formatNum(rates.money) .. "/hr)", true)
+        w:addField("Level", formatNum(pstat.level.Value) .. " (" .. formatNum(rates.xp) .. " XP/hr)", true)
+        -- Tambahan berdasarkan gambar
+        vals.totalCatches = vals.totalCatches or 0
+        vals.catchTime = vals.catchTime or 0
+        rates.catchRate = rates.catchRate or 0
+        w:addField("Catch Rate", vals.totalCatches .. " / 0 (" .. string.format("%.3f", rates.catchRate / 100) .. "%)", true)
+        w:addField("Fish Caught", "Fish was Caught!", true)
+        w:addField("Average Catch Time", string.format("%.3f", vals.catchTime) .. "s", true)
+        w:addField("Runtime", toHMS(os.time() - sessionStart), true)
+        w:addField("Time", lt:FormatLocalTime("HH:mm:ss", "en-US"), true)
+        w:footer("Uptime: " .. toHMS(os.time() - sessionStart))
+        w:timestamp()
+        local success, err = pcall(function()
             w:send()
-            if webhookOpt.test then
-                task.wait(1)
-            else
-                task.wait(70)
-            end
-            webhookOpt.test = false
+        end)
+        if success then
+            print("Webhook berjaya dihantar!")
         else
-            task.wait(5)
+            warn("Ralat menghantar webhook: " .. err)
         end
-        cd.webhook = true
+        if webhookOpt.test then
+            task.wait(1)
+        else
+            task.wait(70)
+        end
+        webhookOpt.test = false
+    else
+        task.wait(5)
     end
+    cd.webhook = true
+end
     if togs.rodspam then
         rsEvs["reelfinished "]:FireServer(100, math.random(1, 100) <= vals.perfect)
     end
