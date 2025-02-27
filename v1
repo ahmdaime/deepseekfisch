@@ -281,8 +281,8 @@ for _, v in pairs(game.Players:GetPlayers()) do
     table.insert(plrNames, v.Name)
 end
 local platform = workspace:FindFirstChild"platform"
-local WHC = loadstring(game:HttpGet"https://raw.githubusercontent.com/LopenaFollower/Lua/main/webhook.lua")()
-local GUI = loadstring(game:HttpGet"https://raw.githubusercontent.com/LopenaFollower/Lua/main/gui%20lib.lua")()
+local WHC = loadstring(game:HttpGet"https://raw.githubusercontent.com/ahmdaime/deepseekfisch/refs/heads/main/webhook")()
+local GUI = loadstring(game:HttpGet"https://raw.githubusercontent.com/ahmdaime/deepseekfisch/refs/heads/main/gui%20lib")()
 local UI = GUI:CreateWindow("0x3b5 Internal Edition", "v1.2")
 function notify(t, m, d)
     game.StarterGui:SetCore("SendNotification", {
