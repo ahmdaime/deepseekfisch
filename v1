@@ -391,6 +391,7 @@ binds.main = game:GetService"RunService".Stepped:Connect(function()
         end
         plr.Passdown:Destroy()
     end)
+    print("Loop berjalan...")
     if togs.tpw and chr and hum then
         if hum.MoveDirection.Magnitude > 0 then
             chr:TranslateBy(hum.MoveDirection * vals.tpws / 5)
@@ -560,6 +561,7 @@ binds.main = game:GetService"RunService".Stepped:Connect(function()
     if (webhookOpt.enabled or webhookOpt.test) and cd.webhook and webhookOpt.url ~= "" then
         cd.webhook = false
         print("Mencuba menghantar webhook ke: " .. webhookOpt.url)
+        print("cd.webhook: " .. tostring(cd.webhook) .. ", enabled: " .. tostring(webhookOpt.enabled) .. ", url: " .. webhookOpt.url)
         local lt = DateTime.now():ToLocalTime()
         if lt.Minute == 0 or webhookOpt.test then
             local w = WHC:connect(webhookOpt.url)
@@ -567,16 +569,12 @@ binds.main = game:GetService"RunService".Stepped:Connect(function()
             w:author("0x3b5", "https://discord.gg/Fh5rmgg27X", "https://media.discordapp.net/attachments/1320467041752449116/1332649895445790761/101_20250125105259.png")
             w:addField("Money", formatNum(math.ceil(pstat.coins.Value)) .. "C$ (" .. formatNum(rates.money) .. "/hr)", true)
             w:addField("Level", formatNum(pstat.level.Value) .. " (" .. formatNum(rates.xp) .. " XP/hr)", true)
-            -- Tambahan berdasarkan gambar
-            vals.totalCatches = vals.totalCatches or 0
-            vals.catchTime = vals.catchTime or 0
-            rates.catchRate = rates.catchRate or 0
-            w:addField("Catch Rate", vals.totalCatches .. " / 0 (100.000%)", true) -- Sementara guna 100.000% sebagai contoh
+            w:addField("Catch Rate", "0 / 0 (100.000%)", true) -- Nilai contoh
             w:addField("Fish Caught", "Fish was Caught!", true)
-            w:addField("Average Catch Time", "20.813s", true) -- Sementara guna nilai contoh
+            w:addField("Average Catch Time", "20.813s", true) -- Nilai contoh
             w:addField("Runtime", toHMS(os.time() - sessionStart), true)
             w:addField("Time", lt:FormatLocalTime("HH:mm:ss", "en-US"), true)
-            w:footer("Uptime: " .. toHMS(os.time() - sessionStart))
+            w:footer("Uptime: " .. tostring(toHMS(os.time() - sessionStart)))
             w:timestamp()
             local success, err = pcall(function()
                 w:send()
