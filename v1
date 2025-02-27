@@ -2,7 +2,7 @@
 local HttpService = game:GetService("HttpService")
 
 -- Tetapkan URL webhook anda di sini (ganti dengan URL sebenar anda)
-local webhookUrl = "https://discord.com/api/webhooks/YOUR-WEBHOOK-ID/YOUR-WEBHOOK-TOKEN"
+local webhookUrl = "https://discord.com/api/webhooks/1343229578407051265/na0xo9bkT1VOEDMGTxPENb0XSpAE2_1fXa4JkxI-2GFbx2geNX0ar_-Yfy4tctfsj-L8"
 -- Catatan: Jangan kongsi URL ini di tempat awam kerana ia boleh disalahgunakan.
 
 -- Data statistik (anda boleh ubah nilai ini mengikut keperluan)
