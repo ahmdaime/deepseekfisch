@@ -71,7 +71,7 @@ local cd = {
 local webhookOpt = {
     enabled = true,
     test = false,
-    url = "[URL_WEBHOOK_ANDA]" -- Ganti dengan URL webhook anda
+    url = "https://discord.com/api/webhooks/1343229578407051265/na0xo9bkT1VOEDMGTxPENb0XSpAE2_1fXa4JkxI-2GFbx2geNX0ar_-Yfy4tctfsj-L8" -- Ganti dengan URL webhook anda
 }
 local rates = {
     money = 0,
